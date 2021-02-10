@@ -11,7 +11,7 @@ import java.util.Collections;
  * @author Fernando De la Rosa
  *
  */
-public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinamico<T> 
+public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 {
 	/**
 	 * Capacidad maxima del arreglo
@@ -24,7 +24,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	/**
 	 * Arreglo de elementos de tamaNo maximo
 	 */
-	private Comparable<T> elementos[ ];
+	private T elementos[ ];
 
 	/**
 	 * Construir un arreglo con la capacidad maxima inicial.
@@ -46,7 +46,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 			elementos = (T[]) new Comparable[tamanoMax];
 			for ( int i = 0; i < tamanoAct; i++)
 			{
-				elementos[i] = copia[i];
+				elementos[i] = (T) copia[i];
 			} 
 		}	
 		elementos[tamanoAct] = dato;
@@ -68,97 +68,156 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		return elemento;
 	}
 
-	public T buscar(T dato) 
-	{
-		// TODO implementar
-		// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-
-		T elemento = null;
-		boolean encontro = false;
-		for (int i=0; i< tamanoAct && elemento == null ; i++)
-		{
-
-			if (elementos[i].compareTo(dato)==0)
-			{
-				
-				//elemento = elementos[i].equals(dato)? elementos[i]:null;
-	
-
-				elemento = (T) elementos[i];
-			}
-
-		}
-
-		return elemento;
-
-	}
-
-
-	public T eliminar(T dato)
-	{
-		T elemento = null;
-		T temp[] = (T[]) new Comparable[tamanoMax];
-		int contador = -1;
-		for (int i = 0; i< tamanoAct; i++)
-		{
-			if (elementos[i].compareTo((T) dato) == 0)	
-			{
-				//No hace nada
-			}
-			else
-			{
-				contador ++;
-				temp[contador] = (T) elementos[i];
-				
-//				if (elementos[i].equals(dato))	
-//				{
-//					elemento = elementos[i];
-//					Collections.addAll(lista, elementos);
-//					lista.remove(i);
-//					elementos = lista.toArray(new String[lista.size()]);
-//					tamanoAct --;
-//					encontro = true;
-//				} 
-
-			}
-		}
-
-		elementos = temp;
-
-
-		return elemento;
-	}
-
-
-	public void invertir()
-	{
-		T temp[] = (T[]) new Comparable[tamanoMax];
-		int contador = 0;
-
-		for (int i=tamanoAct; i>0; i--)
-		{
-			temp[contador] = (T) elementos[i];
-			contador ++;
-		}
-
-
-		elementos = temp;
-
-
-	}
-
-
-
 	public int compareTo(T o) 
 	{
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	public void addFirst(T elemento) {
+		insertElement(elemento, 0);
+	}
 
+	public void addLast(T elemento) {
 
+		elementos[tamanoAct] = elemento;
+		tamanoAct++;
+		
+	}
 
+	public void insertElement(T elemento, int pPosicion) {
+		int actual = tamanoAct;
+		
+		while(actual>pPosicion)
+		{
+			elementos[actual]=elementos[actual-1];
+			actual--;
+		}
+		
+		if (actual==pPosicion)
+		{
+			elementos[pPosicion]=elemento;
+		}
+		
+		tamanoAct++;
+	}
 
+	public T removeFirst() {
+		
+		T temp = elementos[0];
+		elementos[0]=null;
+		
+		if (tamanoAct!=0 &&tamanoAct!=1)
+		{	
+			actualizarLista(0);
+		}
+		return temp;
+	}
+
+		
+	public T removeLast() {
+		
+		if(tamanoAct>0)
+		{
+			T temp = elementos[tamanoAct-1];
+			elementos[tamanoAct-1] = null;
+			tamanoAct--;
+			return temp;			
+		}
+		else
+		{
+			T temp = elementos[tamanoAct];
+			elementos[tamanoAct] = null;
+			return temp;
+		}
+	}
+
+	public T deleteElement(int pPosicion) {
+		if(pPosicion<tamanoAct)
+		{
+			T temp = elementos[pPosicion];
+			elementos[pPosicion] = null;
+			actualizarLista(pPosicion);
+			return temp;
+		}
+		else
+			return null;
+	}
+
+	public T firstElement() {
+		return elementos[0];
+	}
+
+	public T lastElement() {
+		
+		return tamanoAct>0? elementos[tamanoAct-1]:elementos[tamanoAct];
+		
+	}
+
+	@Override
+	public T getElement(int pPosicion) {
+		if (pPosicion-1 < tamanoAct)
+		{
+			return elementos[pPosicion-1];
+		}
+		else
+			return null;
+	}
+
+	public int size() {
+		return tamanoAct-1;
+	}
+
+	public boolean isEmpty() {
+		return tamanoAct==0? true: false;
+	}
+
+	public int isElement(T elemento) {
+		int pos=-1;
+		int contador=0;
+		
+		while(pos==-1 || contador<tamanoAct)
+		{
+		if (elementos[contador].equals(elemento))
+			pos = contador;
+		else
+			contador++;
+		}
+		return pos;
+	}
+
+	public void exchange(int pPosicion_1, int pPosicion_2) {
+
+		if (pPosicion_1<tamanoAct && pPosicion_2<tamanoAct)
+		{
+			T temp = elementos[pPosicion_1];
+			elementos[pPosicion_1]=elementos[pPosicion_2];
+			elementos[pPosicion_2] = temp;
+		}
+	}
+
+	public void changeInfo(int pPosicion, T elemento) {
+
+		if (pPosicion<tamanoAct)
+		{
+			elementos[pPosicion]=elemento;
+		}
+		
+	}
+
+	public void actualizarLista(int posInicio)
+	{
+		if (elementos[posInicio]==null)
+				{
+					int actual = posInicio;
+					while(elementos[actual+1]!=null)
+					{
+						elementos[actual]=elementos[actual+1];
+						actual++;
+					}
+				}
+		
+	}
 
 
 }
