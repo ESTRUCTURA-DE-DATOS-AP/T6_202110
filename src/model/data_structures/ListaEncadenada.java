@@ -40,6 +40,14 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	private Nodo<T> primero;
 	private int size;
 	
+	//---------------------
+	//Constructor
+	//---------------------
+	public ListaEncadenada()
+	{
+		primero = null;
+	}
+
 	
 	
 	//--------------------------
@@ -80,7 +88,8 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 		
 		size ++;
 	}
-
+	
+	
 	@Override
 	public void insertElement(T elemento, int pPosicion) 
 	{
