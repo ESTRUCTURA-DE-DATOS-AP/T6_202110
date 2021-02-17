@@ -80,6 +80,11 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		
 		return (thisData.compareTo(ese));
 	}
-
+	
+	public String toString()
+	{
+		return "Titulo: "+tittle + ";Likes: "+likes+ ";Dislikes: "+dislikes+ ";CategoriaID: "+category_id;
+		
+	}
 	
 }

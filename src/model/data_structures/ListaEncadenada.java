@@ -64,7 +64,7 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 		}
 		else
 		{
-			nodoAgregar.setNext(nodoAgregar);
+			nodoAgregar.setNext(primero);
 			primero =  nodoAgregar;
 		}
 		
@@ -178,9 +178,15 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	public T lastElement() 
 	{
 		Nodo<T> actual = primero;
-		T elemento = primero != null? primero.darElemento():null;
+		int cont = 0;
 		
-		return elemento;
+		while(actual.darSiguiente()!=null && cont<size)
+		{
+			actual = actual.darSiguiente();
+			cont++;
+		}
+		
+		return actual.darElemento();
 	}
 
 	@Override

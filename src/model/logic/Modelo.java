@@ -28,6 +28,20 @@ public class Modelo {
 	{
 	}
 	
+	public String darPrimero()
+	{
+		return videos.firstElement().toString();
+	}
+	
+	public String darUltimo()
+	{
+		return videos.lastElement().toString();
+	}
+	
+	public int size()
+	{
+		return videos.size();
+	}
 	
 	public void agregarLista(int tipoEstructura)
 	{

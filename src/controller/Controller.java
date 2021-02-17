@@ -46,7 +46,9 @@ public class Controller {
 					modelo.agregarLista(1);
 					endT=System.currentTimeMillis();
 					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT)+ " en milisegundos");
-
+					view.printMessage(" El primer elemento es: "+modelo.darPrimero());
+					view.printMessage(" El ultimo elemento es: "+modelo.darUltimo());
+					view.printMessage(" El numero de elementos es: "+modelo.size());
 					break;
 
 				case 2:
@@ -54,7 +56,10 @@ public class Controller {
 					startT=System.currentTimeMillis();
 					modelo.agregarLista(2);
 					endT=System.currentTimeMillis();
-					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT) + " en milisegundos");					
+					view.printMessage(" Para cargar tomo el tiempo: " + (endT-startT) + " en milisegundos");	
+					view.printMessage(" El primer elemento es: "+modelo.darPrimero());
+					view.printMessage(" El ultimo elemento es: "+modelo.darUltimo());
+					view.printMessage(" El numero de elementos es: "+modelo.size());
 					break;
 
 				default: 

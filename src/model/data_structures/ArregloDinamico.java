@@ -163,7 +163,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	}
 
 	public int size() {
-		return tamanoAct-1;
+		return tamanoAct;
 	}
 
 	public boolean isEmpty() {
