@@ -22,7 +22,10 @@ public class Controller {
 		view = new View();
 		modelo = new Modelo();
 	}
-		
+	//mostrarme info de primer y ultimo video
+	//tiempo
+	//Por arrelo
+	//por lista
 	public void run() 
 	{
 		Scanner lector = new Scanner(System.in);
