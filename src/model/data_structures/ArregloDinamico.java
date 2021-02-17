@@ -37,22 +37,6 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 		tamanoAct = 0;
 	}
 
-	public void agregar( T dato )
-	{
-		if ( tamanoAct == tamanoMax )
-		{  // caso de arreglo lleno (aumentar tamaNo)
-			tamanoMax = 2 * tamanoMax;
-			Comparable<T>[] copia = elementos;
-			elementos = (T[]) new Comparable[tamanoMax];
-			for ( int i = 0; i < tamanoAct; i++)
-			{
-				elementos[i] = (T) copia[i];
-			} 
-		}	
-		elementos[tamanoAct] = dato;
-		tamanoAct++;
-	}
-
 	public int darCapacidad() {
 		return tamanoMax;
 	}
@@ -75,7 +59,21 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	}
 
 	public void addFirst(T elemento) {
-		insertElement(elemento, 0);
+		
+		if(tamanoAct==tamanoMax)
+		{
+			tamanoMax = tamanoMax*2;
+		}
+		
+		T temp[] = (T[]) new Comparable[tamanoMax];
+		temp[0]=elemento;
+		
+		for(int i=0; i<tamanoAct;i++)
+		{
+			temp[i+1]=elementos[i];
+		}
+		elementos=temp;
+		tamanoAct++;
 	}
 
 	public void addLast(T elemento) {

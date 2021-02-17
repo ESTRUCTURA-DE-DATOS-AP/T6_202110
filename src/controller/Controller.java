@@ -37,15 +37,24 @@ public class Controller {
 			view.printMenu();
 
 			int option = lector.nextInt();
+			long startT, endT;
+
 			switch(option){
 				case 1:
 					view.printMessage("--------- \nSe cargaron los datos como lista encadenada ");
+					startT=System.currentTimeMillis();
 					modelo.agregarLista(1);
+					endT=System.currentTimeMillis();
+					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT)+ " en milisegundos");
+
 					break;
 
 				case 2:
 					view.printMessage("--------- \nSe cargaron los datos como arreglo dinamico ");
+					startT=System.currentTimeMillis();
 					modelo.agregarLista(2);
+					endT=System.currentTimeMillis();
+					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT) + " en milisegundos");					
 					break;
 
 				default: 

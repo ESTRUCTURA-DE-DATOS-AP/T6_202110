@@ -1,5 +1,9 @@
 package model.logic;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+
 public class YotubeVideo implements Comparable<YotubeVideo>
 {
 	//----------------------
@@ -15,6 +19,7 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	private String tags;
 	private String views;
 	private String likes;
+	private String dislikes;
 	private int comment_count;
 	private String thumbnail_link;
 	private boolean comment_disabled;
@@ -27,7 +32,7 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	//Constructor
 	//----------------------
 	
-	public YotubeVideo(String id, String date,String titulo, String channel, int categoryId, String publish, String tag, String vistas, String meGustas, int comentarios, String link, boolean deshabilitarCoemntarios, boolean deshabilitarRating, boolean error, String descripcion, String pais)
+	public YotubeVideo(String id, String date,String titulo, String channel, int categoryId, String publish, String tag, String vistas, String meGustas, String nomeGustas, int comentarios, String link, boolean deshabilitarCoemntarios, boolean deshabilitarRating, boolean error, String descripcion, String pais)
 	{
 		video_id  =id;
 		trending_date = date;
@@ -38,6 +43,7 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		tags=tag;
 		views=vistas;
 		likes=meGustas;
+		dislikes = nomeGustas;
 		comment_count=comentarios;
 		thumbnail_link=link;
 		comment_disabled=deshabilitarCoemntarios;
@@ -55,21 +61,24 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		// TODO Auto-generated method stub
 		return category_id;
 	}
+	
+	
+	public LocalDate tiempo()
+	{
+		String hora = publish_time.substring(0, publish_time.length()-5);
+		
+		DateTimeFormatter temp = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		LocalDate ld = LocalDate.parse(hora, temp);
+		return ld;
+	}
 
 	@Override
 	public int compareTo(YotubeVideo o)
 	{
-		// TODO Auto-generated method stub
-		int comparador = 0;
-		if (category_id > o.darCategoyId())
-		{
-			comparador = 1;
-		}
-		else if (category_id < o.darCategoyId())
-		{
-			comparador = -1;
-		}
-		return comparador;
+		LocalDate thisData = this.tiempo();
+		LocalDate ese = o.tiempo();
+		
+		return (thisData.compareTo(ese));
 	}
 
 	

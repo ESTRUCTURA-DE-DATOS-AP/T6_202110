@@ -49,26 +49,26 @@ public class Modelo {
 			
 			for(CSVRecord record:records)
 			{
-				String video_id = record.get("video_id");
+				String video_id = record.get("video_id"); 
 				String trending_date = record.get("trending_date");
-				String tittle = record.get("tittle");
-				String channel_tittle = record.get("channel_tittle");
+				String tittle = record.get("title");
+				String channel_tittle = record.get("channel_title");
 				int category_id= Integer.parseInt(record.get("category_id"));
 				String publish_time= record.get("publish_time");
 				String tags= record.get("tags");
 				String views= record.get("views");
 				String likes= record.get("likes");
+				String dislikes= record.get("dislikes");
 				int comment_count= Integer.parseInt(record.get("comment_count"));
 				String thumbnail_link= record.get("thumbnail_link");
-				boolean comment_disabled = record.get("comment_disabled").toLowerCase().equals("false")? false:true;
-				boolean rating_disabled = record.get("rating_disabled").equals("False")? false:true;
-				boolean video_error_or_removed = record.get("rating_disabled").equals("False")? false:true;
+				boolean comment_disabled = record.get("comments_disabled").toLowerCase().equals("false")? false:true;
+				boolean rating_disabled = record.get("ratings_disabled").equals("False")? false:true;
+				boolean video_error_or_removed = record.get("video_error_or_removed").equals("False")? false:true;
 				String description = record.get("description");
 				String country = record.get("country");
 				
-				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country);
+				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country);
 				videos.addFirst(video);
-				
 			}
 			
 			
