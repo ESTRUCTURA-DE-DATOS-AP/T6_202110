@@ -19,7 +19,6 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IListaTad datos;
 	private IListaTad videos;
 	
 	/**
@@ -27,55 +26,26 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico<YotubeVideo>(2);
-		videos = new ListaEncadenada<YotubeVideo>(); 
 	}
 	
-	/**
-	 * Constructor del modelo del mundo con capacidad dada
-	 * @param tamano
-	 */
-	public Modelo(int capacidad)
+	
+	public void agregarLista(int tipoEstructura)
 	{
-		datos = new ArregloDinamico(capacidad);
-	}
-	
-	/**
-	 * Servicio de consulta de numero de elementos presentes en el modelo 
-	 * @return numero de elementos presentes en el modelo
-	 */
-	public int darTamano()
-	{
-		return datos.size();
-	}
-
-	/**
-	 * Requerimiento de agregar dato
-	 * @param dato
-	 */
-	public void agregar(YotubeVideo dato)
-	{	
-		datos.addFirst(dato);;
-	}
-	
-	
-	/**
-	 * Requerimiento eliminar dato
-	 * @param dato Dato a eliminar
-	 * @return dato eliminado
-	 */
-	public YotubeVideo eliminar(int dato)
-	{
-		return (YotubeVideo) datos.deleteElement(dato);
-	}
-	
-	public void agregarLista()
-	{
+		
+		if (tipoEstructura==1)
+		{
+			videos = new ListaEncadenada<YotubeVideo>(); 
+		}
+		else
+		{
+			videos = new ArregloDinamico<YotubeVideo>(4); 
+		}
+		
 		Reader in;
 		try
 		{
 			in = new FileReader("data/videos-small.csv");
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("ID", "CustomerNo", "Name").parse(in);
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			
 			for(CSVRecord record:records)
 			{

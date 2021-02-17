@@ -39,19 +39,13 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 				case 1:
-					view.printMessage("--------- \nCargar lista encdenada \nDar capacidad inicial del arreglo: ");
-				    int capacidad = lector.nextInt();
-				    modelo = new Modelo(capacidad); 
-				    view.printMessage("Arreglo Dinamico creado");
-				    view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("--------- \nSe cargaron los datos como lista encadenada ");
+					modelo.agregarLista(1);
 					break;
 
 				case 2:
-					view.printMessage("--------- \nCaegar arreglo dinamico ");
-					dato = lector.next();
-					modelo.agregar(dato);
-					view.printMessage("Dato agregado");
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
+					view.printMessage("--------- \nSe cargaron los datos como arreglo dinamico ");
+					modelo.agregarLista(2);
 					break;
 
 				default: 
