@@ -77,14 +77,22 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	{
 		Nodo<T> nodoAgregar = new Nodo<T>(elemento);
 		Nodo<T> actual = primero;
-		
-		while(actual != null)
+		int contador = 0;
+		if(actual == null)
 		{
-			if (actual.darSiguiente() == null)
+			primero = nodoAgregar;
+		}
+		else
+		{
+
+			while(actual.darSiguiente() != null)
 			{
-				actual.setNext(nodoAgregar);
+				actual = actual.darSiguiente();
 			}
-		}	
+			actual.setNext(nodoAgregar);
+		}
+		
+			
 		
 		size ++;
 	}

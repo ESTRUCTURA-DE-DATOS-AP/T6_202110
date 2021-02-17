@@ -58,7 +58,7 @@ public class Modelo {
 		Reader in;
 		try
 		{
-			in = new FileReader("data/videos-small.csv");
+			in = new FileReader("data/videos-all.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			
 			for(CSVRecord record:records)
@@ -82,7 +82,7 @@ public class Modelo {
 				String country = record.get("country");
 				
 				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country);
-				videos.addFirst(video);
+				videos.addLast(video);
 			}
 			
 			

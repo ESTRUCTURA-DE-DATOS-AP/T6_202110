@@ -77,10 +77,16 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	}
 
 	public void addLast(T elemento) {
+		
+		if(tamanoAct==tamanoMax || tamanoAct==0)
+		{
+			tamanoMax = tamanoMax*2;
+			elementos = java.util.Arrays.copyOf(elementos, tamanoMax);
+
+		}
 
 		elementos[tamanoAct] = elemento;
-		tamanoAct++;
-		
+		tamanoAct ++;
 	}
 
 	public void insertElement(T elemento, int pPosicion) {
