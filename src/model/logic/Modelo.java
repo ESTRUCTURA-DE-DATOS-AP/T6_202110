@@ -82,7 +82,16 @@ public class Modelo {
 				String country = record.get("country");
 				
 				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country);
-				videos.addLast(video);
+				
+				if (tipoEstructura==1)
+				{
+					videos.addFirst(video);
+				}
+				else
+				{
+					videos.addLast(video);
+				}
+				
 			}
 			
 			
