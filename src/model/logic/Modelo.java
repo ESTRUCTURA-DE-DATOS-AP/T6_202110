@@ -8,7 +8,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import model.data_structures.ArregloDinamico;
-import model.data_structures.IArregloDinamico;
 import model.data_structures.IListaTad;
 import model.data_structures.ListaEncadenada;
 
@@ -20,7 +19,7 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico datos;
+	private IListaTad datos;
 	private IListaTad videos;
 	
 	/**
@@ -28,7 +27,7 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico(7);
+		datos = new ArregloDinamico<YotubeVideo>(2);
 		videos = new ListaEncadenada<YotubeVideo>(); 
 	}
 	
@@ -47,36 +46,27 @@ public class Modelo {
 	 */
 	public int darTamano()
 	{
-		return datos.darTamano();
+		return datos.size();
 	}
 
 	/**
 	 * Requerimiento de agregar dato
 	 * @param dato
 	 */
-	public void agregar(String dato)
+	public void agregar(YotubeVideo dato)
 	{	
-		datos.agregar(dato);
+		datos.addFirst(dato);;
 	}
 	
-	/**
-	 * Requerimiento buscar dato
-	 * @param dato Dato a buscar
-	 * @return dato encontrado
-	 */
-	public String buscar(String dato)
-	{
-		return (String) datos.buscar(dato);
-	}
 	
 	/**
 	 * Requerimiento eliminar dato
 	 * @param dato Dato a eliminar
 	 * @return dato eliminado
 	 */
-	public String eliminar(String dato)
+	public YotubeVideo eliminar(int dato)
 	{
-		return (String) datos.eliminar(dato);
+		return (YotubeVideo) datos.deleteElement(dato);
 	}
 	
 	public void agregarLista()
