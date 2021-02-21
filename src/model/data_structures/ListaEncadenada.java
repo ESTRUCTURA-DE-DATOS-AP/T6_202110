@@ -263,5 +263,13 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 			actual = actual.darSiguiente();
 		}
 	}
+
+
+
+	@Override
+	public IListaTad<T> subLista(int numeroElementos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
