@@ -3,6 +3,7 @@ package model.logic;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Comparator;
 
 public class YotubeVideo implements Comparable<YotubeVideo>
 {
@@ -18,7 +19,7 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	private String publish_time;
 	private String tags;
 	private String views;
-	private String likes;
+	private int likes;
 	private String dislikes;
 	private int comment_count;
 	private String thumbnail_link;
@@ -42,7 +43,7 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		publish_time=publish;
 		tags=tag;
 		views=vistas;
-		likes=meGustas;
+		likes= Integer.parseInt(meGustas);
 		dislikes = nomeGustas;
 		comment_count=comentarios;
 		thumbnail_link=link;
@@ -57,11 +58,16 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	//Metodos
 	//----------------------
 	
-	private int darCategoyId() {
+	public int darCategoyId() 
+	{
 		// TODO Auto-generated method stub
 		return category_id;
 	}
 	
+	public int darLikes()
+	{
+		return likes;
+	}
 	
 	public LocalDate tiempo()
 	{
@@ -81,10 +87,36 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		return (thisData.compareTo(ese));
 	}
 	
+	
+	public static class ComparadorXLikes implements Comparator<YotubeVideo>
+	{
+
+		private int crierioInteger;
+		private int criterioFecha;
+		public ComparadorXLikes() 
+		{
+			
+		}
+		
+		@Override
+		public int compare(YotubeVideo o1, YotubeVideo o2) 
+		{			
+			int comparador = o1.darLikes() == o2.darLikes()? 0: o1.darLikes() > o2.darLikes()? 1:-1;
+			return comparador;
+		}
+		
+	}
+	
+	
 	public String toString()
 	{
 		return "Titulo: "+tittle + ";Likes: "+likes+ ";Dislikes: "+dislikes+ ";CategoriaID: "+category_id;
 		
+	}
+
+	public String darTitulo()
+	{
+		return tittle;
 	}
 	
 }

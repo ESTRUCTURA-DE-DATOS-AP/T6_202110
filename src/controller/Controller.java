@@ -32,6 +32,7 @@ public class Controller {
 		boolean fin = false;
 		String dato = "";
 		String respuesta = "";
+		int capacidad = 0;
 
 		while( !fin ){
 			view.printMenu();
@@ -42,6 +43,7 @@ public class Controller {
 			switch(option){
 				case 1:
 					view.printMessage("--------- \nSe cargaron los datos como lista encadenada ");
+					
 					startT=System.currentTimeMillis();
 					modelo.agregarLista(1);
 					endT=System.currentTimeMillis();
@@ -60,6 +62,33 @@ public class Controller {
 					view.printMessage(" El primer elemento es: "+modelo.darPrimero());
 					view.printMessage(" El ultimo elemento es: "+modelo.darUltimo());
 					view.printMessage(" El numero de elementos es: "+modelo.size());
+					break;
+				case 3:
+					view.printMessage("--------- \nSe Inserte tamaño de la muestra de videos: ");
+					capacidad = lector.nextInt(); 
+					view.printMessage(" El numero de elementos es: "+ modelo.subLista(capacidad));
+					break;
+				
+				case 4:
+					view.printMessage("--------- \nEscoja algoritmo con el cual quiere ordenar");
+					view.printMessage("Insertion Sort: 1");
+					view.printMessage("Shell Sort: 2");
+					view.printMessage("Merge Sort: 3");
+					view.printMessage("Quick Sort: 1");
+					int tipoAlgoritmo = lector.nextInt();
+					startT=System.currentTimeMillis();
+					modelo.ordenarSubLista(tipoAlgoritmo);
+					if (capacidad <=10)
+					{
+						view.printMessage(modelo.getElementosPrimeros10(capacidad));
+					}
+					else
+					{
+						view.printMessage(modelo.getElementosPrimeros10(capacidad));
+						view.printMessage(modelo.getElementosUltimos10(capacidad));	
+					}
+					endT=System.currentTimeMillis();
+					view.printMessage(" Para ordenar tomo el tiempo: " + (endT-startT) + " en milisegundos");
 					break;
 
 				default: 

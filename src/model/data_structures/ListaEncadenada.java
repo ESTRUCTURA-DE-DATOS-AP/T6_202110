@@ -267,9 +267,21 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 
 
 	@Override
-	public IListaTad<T> subLista(int numeroElementos) {
-		// TODO Auto-generated method stub
-		return null;
+	public IListaTad<T> subLista(int numeroElementos) 
+	{
+		IListaTad<T> listita = new ListaEncadenada<T>();
+		 listita.addFirst(primero.darElemento());
+		 Nodo<T> actual = primero.darSiguiente();
+		 int contador = 1;
+		while(contador < numeroElementos && actual!= null)
+		{
+			contador ++;
+			listita.addFirst(actual.darElemento());
+			System.out.println(listita.size());
+			System.out.println(actual.darElemento().toString());
+			actual = actual.darSiguiente();
+		}
+		return listita;
 	}
 	
 }

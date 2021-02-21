@@ -3,6 +3,7 @@ package model.logic;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.Comparator;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -10,6 +11,7 @@ import org.apache.commons.csv.CSVRecord;
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IListaTad;
 import model.data_structures.ListaEncadenada;
+import util.Ordenamiento;
 
 /**
  * Definicion del modelo del mundo
@@ -20,12 +22,15 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	private IListaTad videos;
+	private IListaTad subVideos;
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
+	 * @param capacidad 
 	 */
 	public Modelo()
 	{
+			
 	}
 	
 	public String darPrimero()
@@ -58,7 +63,7 @@ public class Modelo {
 		Reader in;
 		try
 		{
-			in = new FileReader("data/videos-all.csv");
+			in = new FileReader("data/videos-small.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			
 			for(CSVRecord record:records)
@@ -103,6 +108,80 @@ public class Modelo {
 		}
 		
 	}
+	
+	public int subLista(int capacidad)
+	{
+		subVideos = videos.subLista(capacidad);
+		return subVideos.size();
+	}
+
+	public void ordenarSubLista(int tipoAlgoritmo) 
+	{
+		int option = tipoAlgoritmo;
+		Ordenamiento<YotubeVideo> ordenador = new Ordenamiento<YotubeVideo>();
+		Comparator<YotubeVideo> criterio = new YotubeVideo.ComparadorXLikes();
+		
+		switch (option) 
+		{
+		case 1:
+			ordenador.ordenarInserccion(subVideos, criterio, true);
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+			System.out.println("Te jodiste nn, llama al 01800lo_siento_papa");
+			break;
+		}
+		
+	}
+
+	public String getElementosPrimeros10(int capacidad)
+	{
+		String mensaje = "";
+		for(int i= 1; i<capacidad && i<10; i ++) 
+		{
+			YotubeVideo video = (YotubeVideo) subVideos.getElement(i);
+			mensaje = video.darLikes() + "\n";
+		}
+		
+		return mensaje;
+	}
+
+	public String getElementosUltimos10(int capacidad)
+	{
+		String mensaje = "";
+		for(int i= capacidad; i>=10; i --) 
+		{
+			YotubeVideo video = (YotubeVideo) subVideos.getElement(i);
+			mensaje = video.darTitulo() + video.darLikes() + "\n";
+		}
+		
+		return mensaje;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }
