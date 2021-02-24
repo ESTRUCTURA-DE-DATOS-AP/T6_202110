@@ -192,6 +192,9 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 
 	public void exchange(int pPosicion_1, int pPosicion_2) {
 
+		pPosicion_1--;
+		pPosicion_2--;
+		
 		if (pPosicion_1<tamanoAct && pPosicion_2<tamanoAct)
 		{
 			T temp = elementos[pPosicion_1];

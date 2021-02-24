@@ -16,8 +16,8 @@ public class View
 		{
 			System.out.println("1. Cargar la fuente de datos en un lista encadenada");
 			System.out.println("2. Cargar la fuente de datos en arreglo dinamico");
-			System.out.println("3. Cargar muestra de videos");
-			System.out.println("4. ordenar muestra videos");
+			System.out.println("3. Crear nueva sublista de videos");
+			System.out.println("4. Ordenar muestra videos");
 		}
 
 		public void printMessage(String mensaje) {

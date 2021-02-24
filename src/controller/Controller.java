@@ -74,21 +74,14 @@ public class Controller {
 					view.printMessage("Insertion Sort: 1");
 					view.printMessage("Shell Sort: 2");
 					view.printMessage("Merge Sort: 3");
-					view.printMessage("Quick Sort: 1");
+					view.printMessage("Quick Sort: 4");
 					int tipoAlgoritmo = lector.nextInt();
 					startT=System.currentTimeMillis();
 					modelo.ordenarSubLista(tipoAlgoritmo);
-					if (capacidad <=10)
-					{
-						view.printMessage(modelo.getElementosPrimeros10(capacidad));
-					}
-					else
-					{
-						view.printMessage(modelo.getElementosPrimeros10(capacidad));
-						view.printMessage(modelo.getElementosUltimos10(capacidad));	
-					}
 					endT=System.currentTimeMillis();
+					view.printMessage(modelo.textOrdenamiento());
 					view.printMessage(" Para ordenar tomo el tiempo: " + (endT-startT) + " en milisegundos");
+				
 					break;
 
 				default: 

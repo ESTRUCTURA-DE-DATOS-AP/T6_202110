@@ -125,15 +125,22 @@ public class Modelo {
 		{
 		case 1:
 			ordenador.ordenarInserccion(subVideos, criterio, true);
+			System.out.println("Ordenado por inserción");
 			break;
 		case 2:
+			ordenador.ordenarShell(subVideos, criterio, true);
+			System.out.println("Ordenado por Shell");
 			break;
 		case 3:
+			ordenador.ordenarMerge(subVideos, criterio, true);
+			System.out.println("Ordenado por Merge");
 			break;
 		case 4:
+			ordenador.ordenarQuick(subVideos, criterio, true);
+			System.out.println("Ordenado por Quick");
 			break;
 		default:
-			System.out.println("Te jodiste nn, llama al 01800lo_siento_papa");
+			System.out.println("--- Opición invalida ---");
 			break;
 		}
 		
@@ -161,6 +168,50 @@ public class Modelo {
 		}
 		
 		return mensaje;
+	}
+
+	public String textOrdenamiento() {
+		
+		int size = subVideos.size();
+		String resp = "";
+		int contador = 1;
+		YotubeVideo temp;
+		boolean seguir = true;
+		
+		if(size<=20)
+		{
+			while(contador<=20 && seguir)
+			{
+				temp = (YotubeVideo) subVideos.getElement(contador);
+				if(temp!=null)
+				{
+					resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
+					contador++;
+				}
+				else
+					seguir = false;
+			}
+		}
+		else
+		{
+			while(contador<=10)
+			{
+				temp = (YotubeVideo) subVideos.getElement(contador);
+				resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
+				contador++;
+			}
+			contador = size-10;
+			
+			while(contador<=size)
+			{
+				temp = (YotubeVideo) subVideos.getElement(contador);
+				resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
+				contador++;
+			}
+		}
+		
+		
+		return resp;
 	}
 	
 	

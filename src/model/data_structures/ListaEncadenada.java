@@ -216,6 +216,7 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 		
 		return elemento;
 	}
+	
 
 	@Override
 	public int size() 
@@ -240,10 +241,13 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	@Override
 	public void exchange(int pPosicion_1, int pPosicion_2) 
 	{
-		T elemento = deleteElement(pPosicion_1);
-		insertElement(elemento, pPosicion_2);
-		T elemento_2 = deleteElement(pPosicion_2+1);
-		insertElement(elemento_2, pPosicion_1);
+		Nodo<T> actual = primero;
+		while(actual != null)
+		{
+			
+
+			actual = actual.darSiguiente();
+		}
 	}
 
 	@Override
@@ -277,8 +281,6 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 		{
 			contador ++;
 			listita.addFirst(actual.darElemento());
-			System.out.println(listita.size());
-			System.out.println(actual.darElemento().toString());
 			actual = actual.darSiguiente();
 		}
 		return listita;
