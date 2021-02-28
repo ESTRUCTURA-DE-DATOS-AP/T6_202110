@@ -17,6 +17,7 @@ public interface IListaTad <T extends Comparable<T>>
 	public int isElement(T elemento);
 	public void exchange(int pPosicion_1,  int pPosicion_2);
 	public void changeInfo(int pPosicion, T elemento);
-	public IListaTad<T> subLista(int numeroElementos);
+	public IListaTad<T> subLista(int inicio, int numeroElementos);
+	public IListaTad<T> subList(int tamaño, int inicio);
 	
 }

@@ -201,19 +201,27 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	public T getElement(int pPosicion) 
 	{
 		Nodo<T> actual = primero;
-		T elemento = primero!=null? primero.darElemento():null;
-		int contador = 0;
-		while (actual!= null && pPosicion <= size)
-		{
-			contador ++;
-			if (contador == pPosicion)
-			{
-				elemento = actual.darElemento();
-			}
-
-			actual = actual.darSiguiente();
-		}		
+		T elemento = null;
+		int contador = 1;
+		boolean salio = false;
 		
+		//System.out.println(size);
+		if( pPosicion <= size)
+		{
+			while (actual!= null && salio == false)
+			{
+
+				if (contador == pPosicion)
+				{
+					elemento = actual.darElemento();
+					salio = true;
+				}
+				contador ++;
+				actual = actual.darSiguiente();
+			}
+		}
+				
+	
 		return elemento;
 	}
 	
@@ -242,12 +250,28 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	public void exchange(int pPosicion_1, int pPosicion_2) 
 	{
 		Nodo<T> actual = primero;
+		T elemento_1 = null;
+		T elemento_2 = null;
+		int contador = 1;
 		while(actual != null)
 		{
+			if(contador == pPosicion_1)
+			{
+				elemento_1= actual.darElemento();
+			}
 			
-
+			if(contador == pPosicion_2)
+			{
+				elemento_2= actual.darElemento();
+			}
+			//----------------------------------------------------------------
+			contador ++;
 			actual = actual.darSiguiente();
 		}
+		
+		//Intercambia-----------------------
+		changeInfo(pPosicion_2, elemento_1);
+		changeInfo(pPosicion_1, elemento_2);
 	}
 
 	@Override
@@ -255,15 +279,15 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 	{
 		Nodo<T> actual = primero;
 		
-		int contador = 0;
+		int contador = 1;
 		while (actual!= null)
 		{
-			contador ++;
+			
 			if (contador == pPosicion)
 			{
 				actual.setChangeInfo(elemento);
 			}
-			
+			contador ++;
 			actual = actual.darSiguiente();
 		}
 	}
@@ -271,19 +295,42 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 
 
 	@Override
-	public IListaTad<T> subLista(int numeroElementos) 
+	public IListaTad<T> subLista(int inicio, int numeroElementos) 
 	{
 		IListaTad<T> listita = new ListaEncadenada<T>();
-		 listita.addFirst(primero.darElemento());
-		 Nodo<T> actual = primero.darSiguiente();
-		 int contador = 1;
-		while(contador < numeroElementos && actual!= null)
+		Nodo<T> actual = primero;
+		int contador = 1;
+		while(contador <= numeroElementos && actual!= null)
 		{
+			if (contador == inicio)
+			{
+				listita.addFirst(actual.darElemento());
+				inicio ++;
+			}
 			contador ++;
-			listita.addFirst(actual.darElemento());
 			actual = actual.darSiguiente();
 		}
 		return listita;
 	}
+
+
+
+	@Override
+	public IListaTad<T> subList(int tamaño, int inicio) 
+	{
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -109,9 +109,9 @@ public class Modelo {
 		
 	}
 	
-	public int subLista(int capacidad)
+	public int subLista(int inicio, int capacidad)
 	{
-		subVideos = videos.subLista(capacidad);
+		subVideos = videos.subLista(inicio,capacidad);
 		return subVideos.size();
 	}
 
@@ -184,7 +184,7 @@ public class Modelo {
 			{
 				temp = (YotubeVideo) subVideos.getElement(contador);
 				if(temp!=null)
-				{
+				{        
 					resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
 					contador++;
 				}

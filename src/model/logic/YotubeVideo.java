@@ -110,8 +110,8 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	
 	public String toString()
 	{
-		return "Titulo: "+tittle + ";Likes: "+likes+ ";Dislikes: "+dislikes+ ";CategoriaID: "+category_id;
-		
+		//return "Titulo: "+tittle + ";Likes: "+likes+ ";Dislikes: "+dislikes+ ";CategoriaID: "+category_id;
+		return ""+likes+ ":    "+ tittle;
 	}
 
 	public String darTitulo()

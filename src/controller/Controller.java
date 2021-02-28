@@ -66,7 +66,7 @@ public class Controller {
 				case 3:
 					view.printMessage("--------- \nSe Inserte tamaño de la muestra de videos: ");
 					capacidad = lector.nextInt(); 
-					view.printMessage(" El numero de elementos es: "+ modelo.subLista(capacidad));
+					view.printMessage(" El numero de elementos es: "+ modelo.subLista(1, capacidad));
 					break;
 				
 				case 4:

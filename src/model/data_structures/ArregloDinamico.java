@@ -227,15 +227,40 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	}
 
 	@Override
-	public IListaTad<T> subLista(int numeroElementos) 
+	public IListaTad<T> subLista(int inicio, int numeroElementos) 
 	{
+		int valor = inicio -1;
 		IListaTad<T> elementitos = (IListaTad<T>) new ArregloDinamico<T>(numeroElementos);
 		for(int i = 0; i < numeroElementos; i++)
 		{
-			elementitos.addLast(elementos[i]);
+			elementitos.addLast(elementos[valor + i]);
 		}
 		return elementitos;
 	}
+
+	@Override
+	public IListaTad<T> subList(int tamaño, int inicio) 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }
