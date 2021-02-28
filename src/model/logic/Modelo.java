@@ -131,8 +131,8 @@ public class Modelo {
 			ordenador.ordenarShell(subVideos, criterio, true);
 			System.out.println("Ordenado por Shell");
 			break;
-		case 3:
-			ordenador.ordenarMerge(subVideos, criterio, true);
+		case 3:			
+			ordenador.ordenarMergeSort(subVideos, criterio, true);
 			System.out.println("Ordenado por Merge");
 			break;
 		case 4:

@@ -71,101 +71,103 @@ public final class Ordenamiento <T extends Comparable<T>>
 		}
 	}
 
-	public void ordenarMerge(IListaTad<T> lista, Comparator<T> criterio , boolean ascendente )
+	public final void ordenarMergeSort(IListaTad<T> lista, Comparator<T> criterio, boolean ascendente)
 	{
-			int size = lista.size();
-			if(size > 1)
+		int size = lista.size();
+		if(size > 1)
+		{
+			int mid = size/2;
+			//Se divide la lista original en dos partes, izquierda y derecha, desde el punto mid.
+			IListaTad<T> leftList = lista.subLista(1, mid);
+			IListaTad<T> rightList = lista.subLista(mid+1, size - mid);
+			
+			//Se hace el llamado recursivo con la lista izquierda y derecha.
+			ordenarMergeSort(leftList, criterio, ascendente);
+			ordenarMergeSort(rightList, criterio, ascendente);
+			
+			//i recorre la lista de la izquierda, j la derecha y k la lista original.
+			int i,j,k;
+			i=j=k= 1;
+			
+			int leftelements = leftList.size();
+			int rightelements = rightList.size();
+			
+			while(i <= leftelements && j <= rightelements)
 			{
-				int mid = size/2;
-				//Se divide la lista original en dos partes, izquierda y derecha, desde el punto mid.			ILista<T> leftList = lista.subList(1, mid);
+				T elemi = leftList.getElement(i);
+				T elemj = rightList.getElement(j);
+				//Compara y ordena los elementos
+				int factorComparacion = (ascendente?1:-1) * criterio.compare(elemi, elemj);
 				
-				
-				IListaTad<T> leftList = lista.subLista(1, mid);
-//				System.out.println("---------------------------------------------------");
-//				System.out.println("Izquierda" + "Tamaño: " + leftList.size());
-//				for(int i= 1; i<=leftList.size(); i++)
-//				{
-//					System.out.println(leftList.getElement(i).toString());
-//				}
-//				System.out.println("---------------------------------------------------");
-//				System.out.println("Separador");
-				
-				IListaTad<T> rightList = lista.subLista(mid+1, size - mid);
-//				System.out.println("---------------------------------------------------");
-//				System.out.println("Derecha" + "Tamaño: " + rightList.size());
-//				for(int i= 1; i<=rightList.size(); i++)
-//				{
-//					System.out.println(rightList.getElement(i).toString());
-//				}
-//				System.out.println("---------------------------------------------------");
-//				
-				
-				
-				//Se hace el llamado recursivo con la lista izquierda y derecha.
-				ordenarMerge(leftList, criterio, ascendente);
-				ordenarMerge(rightList, criterio, ascendente);
-				
-				//i recorre la lista de la izquierda, j la derecha y k la lista original.
-				int i,d,k;
-				i=d=k= 1;
-				
-				int leftelements = leftList.size();
-				int rightelements = rightList.size();
-				
-				while(i <= leftelements && d <= rightelements)
+				if(factorComparacion <= 0) 
 				{
-					T elemi = leftList.getElement(i);
-					T elemd = rightList.getElement(d);
-					//Compara y ordena los elementos
-					int factorComparacion = (ascendente?1:-1) * criterio.compare(elemi, elemd);
-					
-					if(factorComparacion <= 0) 
-					{
-						lista.changeInfo(k, elemi);
-						i++;
-					}
-					else
-					{
-						lista.changeInfo(k, elemd);
-						d++;
-				}
-					k++;
-				}
-				
-				//Agrega los elementos que no se compararon y están ordenados
-				while(i <= leftelements)
-				{
-					lista.changeInfo(k, leftList.getElement(i));
+					lista.changeInfo(k, elemi);
 					i++;
-					k++;
 				}
-				
-				while(d <= rightelements)
+				else
 				{
-					lista.changeInfo(k, rightList.getElement(d));
-					d++;
-					k++;
+					lista.changeInfo(k, elemj);
+					j++;
 				}
-				
-				
-//				System.out.println("Lista en ordenamiento  ************************");
-//				for (int l=1; l<=lista.size();l++)
-//				{
-//					System.out.println(lista.getElement(i));
-//				}
-//				System.out.println("********************************************");
-//				
+				k++;
 			}
 			
+			//Agrega los elementos que no se compararon y están ordenados
+			while(i <= leftelements)
+			{
+				lista.changeInfo(k, leftList.getElement(i));
+				i++;
+				k++;
+			}
+			
+			while(j <= rightelements)
+			{
+				lista.changeInfo(k, rightList.getElement(j));
+				j++;
+				k++;
+			}
 		}
-
-	
+	}	
 	
 	public void ordenarQuick(IListaTad<T> lista, Comparator<T> criterio , boolean ascendente )
 	{
-		
+		sort(lista, criterio, ascendente, 1, lista.size());
+
 	}
 	
+	private final int partition(IListaTad<T> lista, Comparator<T> criterio, boolean ascendente, int lo, int hi)
+	{
+		int follower, leader;
+		follower = leader = lo;
+		while (leader < hi)
+		{
+			int factorComparacion = (ascendente?1:-1) * criterio.compare(lista.getElement(leader), lista.getElement(hi));
+			if(factorComparacion < 0)
+			{
+				lista.exchange(follower, leader);
+				follower ++;
+			}
+			leader ++;
+		}
+		lista.exchange(follower, hi);
+		return follower;
+	}
+	
+	/**
+	 * Se localiza el pivot, utilizando el método de partición.
+	 * Luego se hace la recursión con los elementos a la izquierda del pivot
+	 * y los elementos a la derecha del pivot.
+	 */
+	private final void sort(IListaTad<T> lista, Comparator<T> criterio, boolean ascendente, int lo, int hi)
+	{
+		if(lo >= hi)
+			return;
+		int pivot = partition(lista, criterio, ascendente, lo, hi);
+		sort(lista, criterio, ascendente, lo, pivot - 1);
+		sort(lista, criterio, ascendente, pivot +1, hi);
+	}
+
+
 	
 	
 }

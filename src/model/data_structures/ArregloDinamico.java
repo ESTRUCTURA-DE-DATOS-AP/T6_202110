@@ -238,12 +238,6 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 		return elementitos;
 	}
 
-	@Override
-	public IListaTad<T> subList(int tamaño, int inicio) 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	

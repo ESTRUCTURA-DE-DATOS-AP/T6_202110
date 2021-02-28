@@ -315,19 +315,6 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 
 
 
-	@Override
-	public IListaTad<T> subList(int tamaño, int inicio) 
-	{
-		
-		return null;
-	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
