@@ -300,13 +300,18 @@ public class ListaEncadenada <T extends Comparable<T>> implements IListaTad<T>
 		IListaTad<T> listita = new ListaEncadenada<T>();
 		Nodo<T> actual = primero;
 		int contador = 1;
+	
+		while(contador!=inicio)
+		{	
+			contador ++;
+			actual = actual.darSiguiente();
+		}
+		
+		contador = 1;
+		
 		while(contador <= numeroElementos && actual!= null)
 		{
-			if (contador == inicio)
-			{
-				listita.addFirst(actual.darElemento());
-				inicio ++;
-			}
+			listita.addFirst(actual.darElemento());
 			contador ++;
 			actual = actual.darSiguiente();
 		}

@@ -203,7 +203,9 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 		}
 	}
 
-	public void changeInfo(int pPosicion, T elemento) {
+	public void changeInfo(int pPosicion, T elemento)
+	{
+		pPosicion --;
 
 		if (pPosicion<tamanoAct)
 		{
