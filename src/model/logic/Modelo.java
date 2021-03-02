@@ -63,7 +63,7 @@ public class Modelo {
 		Reader in;
 		try
 		{
-			in = new FileReader("data/videos-small.csv");
+			in = new FileReader("data/videos-all.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			
 			for(CSVRecord record:records)
