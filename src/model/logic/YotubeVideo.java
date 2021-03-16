@@ -28,12 +28,13 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	private boolean video_error_or_removed;
 	private String description;
 	private String country;
+	private String categoryName;
 	
 	//----------------------
 	//Constructor
 	//----------------------
 	
-	public YotubeVideo(String id, String date,String titulo, String channel, int categoryId, String publish, String tag, String vistas, String meGustas, String nomeGustas, int comentarios, String link, boolean deshabilitarCoemntarios, boolean deshabilitarRating, boolean error, String descripcion, String pais)
+	public YotubeVideo(String id, String date,String titulo, String channel, int categoryId, String publish, String tag, String vistas, String meGustas, String nomeGustas, int comentarios, String link, boolean deshabilitarCoemntarios, boolean deshabilitarRating, boolean error, String descripcion, String pais, String category)
 	{
 		video_id  =id;
 		trending_date = date;
@@ -52,6 +53,8 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		video_error_or_removed=error;
 		description=descripcion;
 		country=pais;
+		categoryName = category;
+		
 	}
 
 	//----------------------
@@ -78,6 +81,8 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		return ld;
 	}
 
+	
+	
 	@Override
 	public int compareTo(YotubeVideo o)
 	{

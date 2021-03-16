@@ -14,10 +14,9 @@ public class View
 	    
 		public void printMenu()
 		{
-			System.out.println("1. Cargar la fuente de datos en un lista encadenada");
-			System.out.println("2. Cargar la fuente de datos en arreglo dinamico");
-			System.out.println("3. Crear nueva sublista de videos");
-			System.out.println("4. Ordenar muestra videos");
+			System.out.println("1. Cargar la fuente de datos en una tabla de simbolos");
+			System.out.println("2. Cargar n videos dado una categoria y un pais");
+			System.out.println("3. Desempeño get");
 		}
 
 		public void printMessage(String mensaje) {

@@ -148,7 +148,8 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 			return null;
 	}
 
-	public T firstElement() {
+	public T firstElement() 
+	{
 		return elementos[0];
 	}
 
@@ -217,15 +218,15 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	public void actualizarLista(int posInicio)
 	{
 		if (elementos[posInicio]==null)
-				{
-					int actual = posInicio;
-					while(elementos[actual+1]!=null)
-					{
-						elementos[actual]=elementos[actual+1];
-						actual++;
-					}
-				}
-		
+		{
+			int actual = posInicio;
+			while(elementos[actual+1]!=null)
+			{
+				elementos[actual]=elementos[actual+1];
+				actual++;
+			}
+		}
+
 	}
 
 	@Override

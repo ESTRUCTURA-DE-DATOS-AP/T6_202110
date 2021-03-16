@@ -4,19 +4,39 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 {
 	private K key;
 	private V value;
+	private IListaTad<V> values;
 
 	
 	public NodoTS(K pKey, V pValue)
 	{
 		key = pKey;
 		value = pValue;
+		values = new ArregloDinamico<V>(7);
+		values.addLast(value);
 	}
 	
+	
+	public K getKey()
+	{
+		return key;
+	}
+	
+	public V getValue()
+	{
+		return values.lastElement();
+	}
+	
+	public IListaTad<V> getValues()
+	{
+		return values;
+	}
 	
 	public void updateValue(V pValue)
 	{
-		value = pValue;
+		values.addLast(pValue);
 	}
+	
+	
 	
 	
 	@Override

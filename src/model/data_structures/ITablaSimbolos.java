@@ -8,5 +8,6 @@ public interface ITablaSimbolos< K extends Comparable <K>, V extends Comparable 
 	boolean contains(K key);
 	public IListaTad<K> keySet(); 
 	public IListaTad<V> valueSet(); 
+	public int size();
 	
 }

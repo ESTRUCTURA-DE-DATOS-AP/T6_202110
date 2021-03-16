@@ -45,42 +45,20 @@ public class Controller {
 					view.printMessage("--------- \nSe cargaron los datos como lista encadenada ");
 					
 					startT=System.currentTimeMillis();
-					modelo.agregarLista(1);
+					modelo.crearTabla();
 					endT=System.currentTimeMillis();
 					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT)+ " en milisegundos");
-					view.printMessage(" El primer elemento es: "+modelo.darPrimero());
-					view.printMessage(" El ultimo elemento es: "+modelo.darUltimo());
 					view.printMessage(" El numero de elementos es: "+modelo.size());
 					break;
 
 				case 2:
-					view.printMessage("--------- \nSe cargaron los datos como arreglo dinamico ");
-					startT=System.currentTimeMillis();
-					modelo.agregarLista(2);
-					endT=System.currentTimeMillis();
-					view.printMessage(" Para cargar tomo el tiempo: " + (endT-startT) + " en milisegundos");	
-					view.printMessage(" El primer elemento es: "+modelo.darPrimero());
-					view.printMessage(" El ultimo elemento es: "+modelo.darUltimo());
-					view.printMessage(" El numero de elementos es: "+modelo.size());
+					
 					break;
 				case 3:
-					view.printMessage("--------- \nSe Inserte tamaño de la muestra de videos: ");
-					capacidad = lector.nextInt(); 
-					view.printMessage(" El numero de elementos es: "+ modelo.subLista(1, capacidad));
+					
 					break;
 				
 				case 4:
-					view.printMessage("--------- \nEscoja algoritmo con el cual quiere ordenar");
-					view.printMessage("Insertion Sort: 1");
-					view.printMessage("Shell Sort: 2");
-					view.printMessage("Merge Sort: 3");
-					view.printMessage("Quick Sort: 4");
-					int tipoAlgoritmo = lector.nextInt();
-					startT=System.currentTimeMillis();
-					modelo.ordenarSubLista(tipoAlgoritmo);
-					endT=System.currentTimeMillis();
-					view.printMessage(modelo.textOrdenamiento());
-					view.printMessage(" Para ordenar tomo el tiempo: " + (endT-startT) + " en milisegundos");
 				
 					break;
 

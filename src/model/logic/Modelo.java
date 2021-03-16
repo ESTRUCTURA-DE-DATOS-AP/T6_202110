@@ -10,7 +10,9 @@ import org.apache.commons.csv.CSVRecord;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IListaTad;
+import model.data_structures.ITablaSimbolos;
 import model.data_structures.ListaEncadenada;
+import model.data_structures.TablaSimbolos;
 import util.Ordenamiento;
 
 /**
@@ -23,7 +25,8 @@ public class Modelo {
 	 */
 	private IListaTad videos;
 	private IListaTad subVideos;
-	
+	private String listaCategorias[];
+	private ITablaSimbolos table;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 * @param capacidad 
@@ -45,25 +48,61 @@ public class Modelo {
 	
 	public int size()
 	{
-		return videos.size();
+		return table.size();
 	}
 	
-	public void agregarLista(int tipoEstructura)
+	
+	//Carga los datos del archivo .csv
+	public void crearListaCategorias()
 	{
-		
-		if (tipoEstructura==1)
-		{
-			videos = new ListaEncadenada<YotubeVideo>(); 
-		}
-		else
-		{
-			videos = new ArregloDinamico<YotubeVideo>(4); 
-		}
-		
 		Reader in;
 		try
 		{
-			in = new FileReader("data/videos-all.csv");
+			in = new FileReader("data/category-id.csv");
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
+			int contador = 0;
+			
+			for(CSVRecord record:records)
+			{
+				String vaina = record.get("id	name");
+				
+				listaCategorias[contador] = vaina;
+				contador++;
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String giveNameFormID(int id)
+	{
+		String name = "";
+		
+		for (int i = 0; i < listaCategorias.length; i++)
+		{
+			String[] temp = listaCategorias[i].split(" ",2);
+			String name_list = temp[1];
+			int id_list = Integer.parseInt(temp[0]);
+			
+		}
+		
+		return name;
+		
+	}
+	
+	public void crearTabla()
+	{
+		
+		table = new TablaSimbolos<String, YotubeVideo>();
+		
+		try
+		{
+			Reader in;
+			in = new FileReader("data/videos-small.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			
 			for(CSVRecord record:records)
@@ -85,27 +124,24 @@ public class Modelo {
 				boolean video_error_or_removed = record.get("video_error_or_removed").equals("False")? false:true;
 				String description = record.get("description");
 				String country = record.get("country");
+				String categoryName = "";
 				
-				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country);
-				
-				if (tipoEstructura==1)
-				{
-					videos.addFirst(video);
-				}
-				else
-				{
-					videos.addLast(video);
-				}
-				
+				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country, categoryName);
+				table.put(country+" - " + category_id, video);
 			}
-			
-			
+				
 		} 
 		catch (Exception e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public void agregarLista(int tipoEstructura)
+	{
+		
 		
 	}
 	
