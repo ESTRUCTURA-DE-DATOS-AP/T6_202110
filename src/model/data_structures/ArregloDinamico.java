@@ -82,7 +82,6 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 		{
 			tamanoMax = tamanoMax*2;
 			elementos = java.util.Arrays.copyOf(elementos, tamanoMax);
-
 		}
 
 		elementos[tamanoAct] = elemento;
@@ -161,9 +160,9 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 
 	@Override
 	public T getElement(int pPosicion) {
-		if (pPosicion-1 < tamanoAct)
+		if (pPosicion < tamanoAct)
 		{
-			return elementos[pPosicion-1];
+			return elementos[pPosicion];
 		}
 		else
 			return null;
@@ -193,8 +192,6 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 
 	public void exchange(int pPosicion_1, int pPosicion_2) {
 
-		pPosicion_1--;
-		pPosicion_2--;
 		
 		if (pPosicion_1<tamanoAct && pPosicion_2<tamanoAct)
 		{
@@ -206,8 +203,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 
 	public void changeInfo(int pPosicion, T elemento)
 	{
-		pPosicion --;
-
+		
 		if (pPosicion<tamanoAct)
 		{
 			elementos[pPosicion]=elemento;
@@ -232,7 +228,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	@Override
 	public IListaTad<T> subLista(int inicio, int numeroElementos) 
 	{
-		int valor = inicio -1;
+		int valor = inicio;
 		IListaTad<T> elementitos = (IListaTad<T>) new ArregloDinamico<T>(numeroElementos);
 		for(int i = 0; i < numeroElementos; i++)
 		{

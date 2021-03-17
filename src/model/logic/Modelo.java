@@ -123,11 +123,11 @@ public class Modelo {
 				boolean rating_disabled = record.get("ratings_disabled").equals("False")? false:true;
 				boolean video_error_or_removed = record.get("video_error_or_removed").equals("False")? false:true;
 				String description = record.get("description");
-				String country = record.get("country");
+				String country = record.get("country").toLowerCase();
 				String categoryName = "";
 				
 				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country, categoryName);
-				table.put(country+" - " + category_id, video);
+				table.put(country+" - "+ category_id , video);
 			}
 				
 		} 
