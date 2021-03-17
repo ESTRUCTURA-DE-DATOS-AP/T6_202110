@@ -44,5 +44,14 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 	{
 		return this.key.compareTo(other.key);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

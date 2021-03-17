@@ -89,7 +89,6 @@ public class Modelo {
 			int id_list = Integer.parseInt(temp[0]);
 			
 		}
-		
 		return name;
 		
 	}

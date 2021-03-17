@@ -15,93 +15,31 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 	@Override
 	public void put(K key, V value) 
 	{
+		boolean find=false;
+		NodoTS<K,V> nodoAgregar = (NodoTS<K, V>) new NodoTS<>(key, value);
 		
-		NodoTS<K,V> nodoAgregar = new NodoTS<>(key, value);
-		for (int i = 0; i<elements.size(); i++)
+		for(int i=0; i<elements.size()&& !find;i++)
 		{
-			System.out.println(elements.getElement(i).getKey());
-			
+			NodoTS<K,V> nodo = elements.getElement(i);
+			if(nodo.compareTo(nodoAgregar)==0)
+			{
+				nodo.updateValue(value);
+				find = true;
+			}
 		}
-		
-		//Agregar el primer elemento a la lista
-		if (elements.isEmpty())
+		if (find == false)
 		{
 			elements.addLast(nodoAgregar);
-			size++;
+			size ++;
 		}
-		//Cualquier otro caso
-		else
+		System.out.println("----------------------------------------------");
+		for(int i=0; i<elements.size()&& !find;i++)
 		{
-			//Condicionador
-			boolean posicionador = false;
-			//Empezar en la mitad, y tener un nodo de referencia
-			int origin = size/2;
-			NodoTS<K,V> nodoMitad = elements.getElement(origin);
-			
-			//Preguntar recorrido
-			if(nodoMitad.compareTo(nodoAgregar)==0)
-			{
-				//Es igual
-				nodoMitad.updateValue(value);
-			}
-			else if(nodoMitad.compareTo(nodoAgregar)>0)
-			{
-				//Recorrido en contra
-				while(origin >0 && !posicionador)
-				{
-					origin --;
-					NodoTS<K,V> nodo = elements.getElement(origin);
-					if(nodo.compareTo(nodoAgregar)<0)
-					{
-						elements.insertElement(nodoAgregar, origin+1);
-						posicionador = true;
-						size ++;
-					}
-					else if(nodo.compareTo(nodoAgregar)==0)
-					{
-						//Si es igual actualiza
-						nodo.updateValue(value);
-						posicionador = true;
-						
-					}
-				}
-				
-			}
-			else if (nodoMitad.compareTo(nodoAgregar)<0)
-			{
-				//Recorrido a favor
-				while(origin < size && !posicionador)
-				{
-					
-					NodoTS<K,V> nodo = elements.getElement(origin);
-					if(nodo.compareTo(nodoAgregar)>0)
-					{
-						elements.insertElement(nodoAgregar, origin-1);
-						posicionador = true;
-						size ++;
-					}
-					else if(nodo.compareTo(nodoAgregar)==0)
-					{
-						//Si es igual actualiza
-						nodo.updateValue(value);
-						posicionador = true;
-						
-					}
-					origin ++;
-				}
-				
-				if(posicionador == false )
-				{
-					NodoTS<K,V> nodo = elements.getElement(origin);
-					elements.addLast(nodoAgregar);
-					size ++;
-					
-				}
-				
-			}
-			
-			
+			NodoTS<K,V> nodo = elements.getElement(i);
+			System.out.println(nodo.getKey());
 		}
+		System.out.println("----------------------------------------------");
+		
 		
 	}
 
@@ -137,20 +75,16 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 	public boolean contains(K key)
 	{
 		boolean contain = false;
-		System.out.println("----------------------------------------------------------");
-		for (int i = 0; i < size + 1 && !contain; i++)
+		for (int i = 0; i < size && !contain; i++)
 		{	
 			NodoTS<K,V> nodo = elements.getElement(i);
 			
 			System.out.println(nodo.getKey() + "En la posicion " +i);
-			
 			if(nodo.getKey().compareTo(key) == 0)
 			{
-				
 				contain = true;
 			}
 		}
-		System.out.println("----------------------------------------------------------");
 		return contain;
 	}
 
@@ -184,23 +118,21 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 	private NodoTS<K,V> binarySearch( K key)
 	{
 		int origin = 0;
-		int end = elements.size();
+		int end = elements.size()-1;
 		boolean find = false;
 		NodoTS<K,V> nodo = null;
 		NodoTS<K,V> temp = null;
 		NodoTS<K,V> nodoSearch = new NodoTS<>(key, null);
 		
 		
-		while (origin < end  && !find  && !elements.isEmpty())
+		while (origin <= end  && !find  && !elements.isEmpty())
 		{
 			int middle = (origin + end)/2;
 			temp  = elements.getElement(middle);
 			if(temp.compareTo(nodoSearch) > 0)
-			{
-				
+			{	
 				end = middle-1;
-				
-				
+
 			}
 			else if(temp.compareTo(nodoSearch) < 0)
 			{
@@ -211,6 +143,13 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 				nodo = temp;
 				find = true;
 			}
+			
+			System.out.println("'''''''''''''''''''''''''''''''''''''''''''''''''''");
+			System.out.println("Mitad: "+middle);
+			System.out.println("Origen: "+origin);
+			System.out.println("Fin: "+end);
+			System.out.println("'''''''''''''''''''''''''''''''''''''''''''''''''''");
+
 			
 		}
 		return nodo;
