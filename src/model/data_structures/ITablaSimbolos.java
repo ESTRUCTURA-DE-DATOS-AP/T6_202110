@@ -3,7 +3,7 @@ package model.data_structures;
 public interface ITablaSimbolos< K extends Comparable <K>, V extends Comparable <V>>
 {
 	public void put(K key, V value);
-	public V get(K key);
+	public  IListaTad<V>  get(K key);
 	public V remove(K key);
 	boolean contains(K key);
 	public IListaTad<K> keySet(); 

@@ -18,9 +18,9 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 	private int category_id;
 	private String publish_time;
 	private String tags;
-	private String views;
+	private int views;
 	private int likes;
-	private String dislikes;
+	private int dislikes;
 	private int comment_count;
 	private String thumbnail_link;
 	private boolean comment_disabled;
@@ -43,9 +43,9 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		category_id=categoryId;
 		publish_time=publish;
 		tags=tag;
-		views=vistas;
+		views=Integer.parseInt(vistas);
 		likes= Integer.parseInt(meGustas);
-		dislikes = nomeGustas;
+		dislikes = Integer.parseInt(nomeGustas);
 		comment_count=comentarios;
 		thumbnail_link=link;
 		comment_disabled=deshabilitarCoemntarios;
@@ -72,6 +72,15 @@ public class YotubeVideo implements Comparable<YotubeVideo>
 		return likes;
 	}
 	
+	public int darDislikes()
+	{
+		return dislikes;
+	}
+	
+	public int darViews()
+	{
+		return views;
+	}
 	public LocalDate tiempo()
 	{
 		String hora = publish_time.substring(0, publish_time.length()-5);

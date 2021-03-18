@@ -26,6 +26,7 @@ public class Modelo {
 	private IListaTad videos;
 	private IListaTad subVideos;
 	private String listaCategorias[];
+	private IListaTad llaves;
 	private ITablaSimbolos table;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -33,7 +34,7 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-			
+		llaves = new ArregloDinamico<String>(7);
 	}
 	
 	public String darPrimero()
@@ -56,6 +57,7 @@ public class Modelo {
 	public void crearListaCategorias()
 	{
 		Reader in;
+		listaCategorias = new String[32];
 		try
 		{
 			in = new FileReader("data/category-id.csv");
@@ -65,7 +67,6 @@ public class Modelo {
 			for(CSVRecord record:records)
 			{
 				String vaina = record.get("id	name");
-				
 				listaCategorias[contador] = vaina;
 				contador++;
 			}
@@ -78,7 +79,7 @@ public class Modelo {
 		}
 	}
 	
-	public String giveNameFormID(int id)
+	public String giveNameFromID(int id)
 	{
 		String name = "";
 		
@@ -92,6 +93,27 @@ public class Modelo {
 		return name;
 		
 	}
+	public int giveIdFromName(String name)
+	{
+
+		int id=0;
+		String a = "";
+		boolean category = false;
+		for (int i = 0; i < listaCategorias.length && !category; i++)
+		{
+			String temp = listaCategorias[i].toLowerCase();
+			if (temp.contains(name.toLowerCase()))
+			{
+				a = temp.substring(0, 2).trim();
+				id = Integer.parseInt(a);
+				category = true;
+			}
+			
+		}
+		return id;
+		
+	
+	}
 	
 	public void crearTabla()
 	{
@@ -101,9 +123,9 @@ public class Modelo {
 		try
 		{
 			Reader in;
-			in = new FileReader("data/videos-small.csv");
+			in = new FileReader("data/videos-all.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
-			
+			int contador = 0;
 			for(CSVRecord record:records)
 			{
 				String video_id = record.get("video_id"); 
@@ -127,6 +149,8 @@ public class Modelo {
 				
 				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country, categoryName);
 				table.put(country+" - "+ category_id , video);
+				contador ++;
+				llaves.addLast(country+" - "+ category_id);
 			}
 				
 		} 
@@ -150,105 +174,51 @@ public class Modelo {
 		return subVideos.size();
 	}
 
-	public void ordenarSubLista(int tipoAlgoritmo) 
+	public String searchKey(String country, int id)
 	{
-		int option = tipoAlgoritmo;
-		Ordenamiento<YotubeVideo> ordenador = new Ordenamiento<YotubeVideo>();
-		Comparator<YotubeVideo> criterio = new YotubeVideo.ComparadorXLikes();
-		
-		switch (option) 
+		String message = "";
+		try
 		{
-		case 1:
-			ordenador.ordenarInserccion(subVideos, criterio, true);
-			System.out.println("Ordenado por inserción");
-			break;
-		case 2:
-			ordenador.ordenarShell(subVideos, criterio, true);
-			System.out.println("Ordenado por Shell");
-			break;
-		case 3:			
-			ordenador.ordenarMergeSort(subVideos, criterio, true);
-			System.out.println("Ordenado por Merge");
-			break;
-		case 4:
-			ordenador.ordenarQuick(subVideos, criterio, true);
-			System.out.println("Ordenado por Quick");
-			break;
-		default:
-			System.out.println("--- Opición invalida ---");
-			break;
-		}
-		
-	}
+			String concatenate = country + " - " + id;
+			IListaTad<YotubeVideo> values =  new ArregloDinamico<YotubeVideo>(7);
+			values = table.get(concatenate);
 
-	public String getElementosPrimeros10(int capacidad)
-	{
-		String mensaje = "";
-		for(int i= 1; i<capacidad && i<10; i ++) 
-		{
-			YotubeVideo video = (YotubeVideo) subVideos.getElement(i);
-			mensaje = video.darLikes() + "\n";
+			for (int i=0; i<values.size();i++)
+			{
+				message += "\n Title: " + values.getElement(i).darTitulo() +" Views: " + values.getElement(i).darViews() +" Likes: " + values.getElement(i).darLikes() + " dislikes: " + values.getElement(i).darDislikes();                       
+			}	
 		}
-		
-		return mensaje;
-	}
+		catch(Exception e)
+		{
+			message = "Los parametros no son validos ;), hay un error, rectifica tu camino de vida";
+			message += "\n posdata: valiste madre we ;)";
+		}
 
-	public String getElementosUltimos10(int capacidad)
-	{
-		String mensaje = "";
-		for(int i= capacidad; i>=10; i --) 
-		{
-			YotubeVideo video = (YotubeVideo) subVideos.getElement(i);
-			mensaje = video.darTitulo() + video.darLikes() + "\n";
-		}
+		return message;
 		
-		return mensaje;
-	}
-
-	public String textOrdenamiento() {
-		
-		int size = subVideos.size();
-		String resp = "";
-		int contador = 1;
-		YotubeVideo temp;
-		boolean seguir = true;
-		
-		if(size<=20)
-		{
-			while(contador<=20 && seguir)
-			{
-				temp = (YotubeVideo) subVideos.getElement(contador);
-				if(temp!=null)
-				{        
-					resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
-					contador++;
-				}
-				else
-					seguir = false;
-			}
-		}
-		else
-		{
-			while(contador<=10)
-			{
-				temp = (YotubeVideo) subVideos.getElement(contador);
-				resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
-				contador++;
-			}
-			contador = size-10;
-			
-			while(contador<=size)
-			{
-				temp = (YotubeVideo) subVideos.getElement(contador);
-				resp += "El video numero "+ contador+" se llama: "+temp.darTitulo()+" y tiene: "+temp.darLikes()+" likes. \n";
-				contador++;
-			}
-		}
-		
-		
-		return resp;
 	}
 	
+	public double pruebaGet()
+	{
+		long startT, endT;
+		startT=System.currentTimeMillis();
+		for(int i=0; i <699;i++)
+		{
+			int Random = (int)(Math.random()*129);
+			String llave = (String) llaves.getElement(Random);
+			table.get(llave);
+		}
+		for(int i=0; i <299;i++)
+		{
+			int Random = (int)(Math.random()*129);
+			table.get(Random);
+		}
+		endT=System.currentTimeMillis();
+		
+		
+		return (endT-startT)/1000;
+		
+	}
 	
 	
 	

@@ -32,23 +32,9 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 			elements.addLast(nodoAgregar);
 			size ++;
 		}
-		System.out.println("----------------------------------------------");
-		for(int i=0; i<elements.size()&& !find;i++)
-		{
-			NodoTS<K,V> nodo = elements.getElement(i);
-			System.out.println(nodo.getKey());
-		}
-		System.out.println("----------------------------------------------");
-		
-		
 	}
 
-	@Override
-	public V get(K key) 
-	{
-		NodoTS<K,V> nodo = binarySearch(key);
-		return nodo.getValue();
-	}
+
 
 	@Override
 	public V remove(K key) 
@@ -117,47 +103,31 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 
 	private NodoTS<K,V> binarySearch( K key)
 	{
-		int origin = 0;
-		int end = elements.size()-1;
-		boolean find = false;
 		NodoTS<K,V> nodo = null;
-		NodoTS<K,V> temp = null;
-		NodoTS<K,V> nodoSearch = new NodoTS<>(key, null);
-		
-		
-		while (origin <= end  && !find  && !elements.isEmpty())
-		{
-			int middle = (origin + end)/2;
-			temp  = elements.getElement(middle);
-			if(temp.compareTo(nodoSearch) > 0)
-			{	
-				end = middle-1;
-
-			}
-			else if(temp.compareTo(nodoSearch) < 0)
+		NodoTS<K,V> nodoDevolver = null;
+		boolean contain = false;
+		for (int i = 0; i < size && !contain; i++)
+		{	
+			nodo = elements.getElement(i);
+			if(nodo.getKey().compareTo(key) == 0)
 			{
-				origin = middle+1;	
+				nodoDevolver = nodo;
+				contain = true;
 			}
-			else 
-			{
-				nodo = temp;
-				find = true;
-			}
-			
-			System.out.println("'''''''''''''''''''''''''''''''''''''''''''''''''''");
-			System.out.println("Mitad: "+middle);
-			System.out.println("Origen: "+origin);
-			System.out.println("Fin: "+end);
-			System.out.println("'''''''''''''''''''''''''''''''''''''''''''''''''''");
-
-			
 		}
-		return nodo;
+		return nodoDevolver;
 	}
 	
 	public int size()
 	{
 		return size;
+	}
+
+	@Override
+	public IListaTad<V> get(K key)
+	{
+		IListaTad<V> values = binarySearch(key).getValues();
+		return values;
 	}
 	
 

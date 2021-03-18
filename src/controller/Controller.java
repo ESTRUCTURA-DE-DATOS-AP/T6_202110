@@ -42,19 +42,27 @@ public class Controller {
 
 			switch(option){
 				case 1:
-					view.printMessage("--------- \nSe cargaron los datos como lista encadenada ");
 					
 					startT=System.currentTimeMillis();
 					modelo.crearTabla();
+					modelo.crearListaCategorias();
 					endT=System.currentTimeMillis();
 					view.printMessage(" \nPara cargar tomo el tiempo: " + (endT-startT)+ " en milisegundos");
-					view.printMessage(" El numero de elementos es: "+modelo.size());
+					view.printMessage("El numero de elementos es: "+modelo.size());
+					view.printMessage("Se cargaron los datos en al tabla de símbolos \n");
 					break;
 
 				case 2:
-					
+					view.printMessage("Por favor ingrese la categoria que desea filtrar");
+					String name = lector.next();
+					int id = modelo.giveIdFromName(name);
+					view.printMessage("Por favor ingrese el país que desea filtrar");
+					String country = lector.next().toLowerCase();
+					view.printMessage(modelo.searchKey(country, id));
 					break;
 				case 3:
+					view.printMessage("El promedio del metodo get es de:" + modelo.pruebaGet());
+					
 					
 					break;
 				
