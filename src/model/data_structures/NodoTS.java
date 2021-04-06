@@ -5,6 +5,7 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 	private K key;
 	private V value;
 	private IListaTad<V> values;
+	private int valuesCount;
 
 	
 	public NodoTS(K pKey, V pValue)

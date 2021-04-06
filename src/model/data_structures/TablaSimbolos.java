@@ -4,12 +4,13 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 {
 	private IListaTad<NodoTS<K,V>> elements;
 	private int size;
+	private int M;
 	
 	
 	public TablaSimbolos()
 	{
 		elements = new ArregloDinamico<NodoTS<K,V>>(7);
-		
+		M = 3;
 	}
 	
 	@Override
@@ -18,6 +19,7 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 		boolean find=false;
 		NodoTS<K,V> nodoAgregar = (NodoTS<K, V>) new NodoTS<>(key, value);
 		
+				
 		for(int i=0; i<elements.size()&& !find;i++)
 		{
 			NodoTS<K,V> nodo = elements.getElement(i);
@@ -27,6 +29,7 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 				find = true;
 			}
 		}
+		
 		if (find == false)
 		{
 			elements.addLast(nodoAgregar);
@@ -128,6 +131,13 @@ public class TablaSimbolos<K extends Comparable<K>, V extends Comparable<V> > im
 	{
 		IListaTad<V> values = binarySearch(key).getValues();
 		return values;
+	}
+	
+	public int hash(K key)
+	{
+		return (key.hashCode() & 0x7fffffff) % M;
+		//PR = 5
+		//Canada musica = 5 
 	}
 	
 

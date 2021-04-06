@@ -9,5 +9,6 @@ public interface ITablaSimbolos< K extends Comparable <K>, V extends Comparable 
 	public IListaTad<K> keySet(); 
 	public IListaTad<V> valueSet(); 
 	public int size();
+	public int hash(K key);
 	
 }
