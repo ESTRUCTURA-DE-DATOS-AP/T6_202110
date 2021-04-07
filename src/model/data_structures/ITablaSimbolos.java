@@ -10,5 +10,7 @@ public interface ITablaSimbolos< K extends Comparable <K>, V extends Comparable 
 	public IListaTad<V> valueSet(); 
 	public int size();
 	public int hash(K key);
-	
+	public int videoCount();
+	public void reHash();
+	public String data();
 }

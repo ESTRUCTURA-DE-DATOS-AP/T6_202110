@@ -37,6 +37,11 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 		values.addLast(pValue);
 	}
 	
+	public int valuesCount()
+	{
+		return values.size();
+	}
+	
 	
 	
 	

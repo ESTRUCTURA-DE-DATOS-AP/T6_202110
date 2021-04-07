@@ -17,7 +17,7 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 	
 	public HashTableSeparateChaining(int pM)
 	{
-		M = INITIAL_SIZE;
+		M = pM;
 		elements =(IListaTad<NodoTS<K,V>>[]) new IListaTad[pM];
 		
 		for(int i = 0; i<M; i++)
@@ -34,8 +34,6 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 		int h = 0;
 		boolean find = false;
 		
-		
-		h = hash(key);
 		for(int i =0; i < elements[h].size() && !find; i++)
 		{
 			NodoTS<K,V> nodoTS = elements[h].getElement(i);
@@ -80,9 +78,7 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 				find = true;	
 			}
 		}
-		
 		return values;
-		
 	}
 
 	@Override
@@ -117,15 +113,36 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 	@Override
 	public IListaTad<K> keySet() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		IListaTad<K> keys = new ArregloDinamico<>(size);
+		for(int i = 0; i< M; i++)
+		{
+			for(int z = 0; z<elements[i].size(); z++ )
+			{
+				K keyTemp = elements[i].getElement(z).getKey();
+				keys.addLast(keyTemp);
+			}
+		}
+		return keys;
 	}
 
 	@Override
 	public IListaTad<V> valueSet() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		IListaTad<V> values = new ArregloDinamico<>(size);
+		
+		for(int i = 0; i< M; i++)
+		{
+			for(int z = 0; z<elements[i].size(); z++ )
+			{
+				int tempValues = elements[i].getElement(z).getValues().size();
+				for(int j = 0; j < tempValues; j++ )
+				{
+					V value = elements[i].getElement(z).getValues().getElement(j);
+					values.addLast(value);
+				}
+			}
+		}
+		return values;
 	}
 
 	@Override
@@ -133,6 +150,8 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 	{
 		return size;
 	}
+	
+	
 
 	@Override
 	public int hash(K key) 
@@ -148,7 +167,13 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 		{
 			for(int z=0; z <elements[i].size(); z++)
 			{
-				temp.put(elements[i].getElement(z).getKey(), elements[i].getElement(z).getValue());
+				int tempValues = elements[i].getElement(z).getValues().size();
+				for(int j = 0; j < tempValues; j++ )
+				{
+					V value = elements[i].getElement(z).getValues().getElement(j);
+					temp.put(elements[i].getElement(z).getKey(), value);
+				}
+				
 			}		
 		}
 		
@@ -158,10 +183,37 @@ public class HashTableSeparateChaining< K extends Comparable<K>, V extends Compa
 		updateLoadingFactor();
 	}
 	
+	
+	//Metodos auxilares
 	public void updateLoadingFactor()
 	{
 		loadingFactor = size/M;
 	}
 	
+	
+	public int module()
+	{
+		return M;
+	}
+	
+	public int videoCount()
+	{
+		int sum = 0;
+		for(int i = 0; i < M; i++)
+		{
+			for(int z = 0; z < elements[i].size(); z++)
+			{
+				sum += elements[i].getElement(z).valuesCount();
+			}
+		}
+		
+		return sum;
+	}
+
+	@Override
+	public String data() {
+		// TODO Auto-generated method stub
+		return "" + rehashes + " " + loadingFactor;
+	}
 
 }

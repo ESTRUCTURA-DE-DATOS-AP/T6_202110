@@ -9,10 +9,10 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import model.data_structures.ArregloDinamico;
+import model.data_structures.HashTableSeparateChaining;
 import model.data_structures.IListaTad;
 import model.data_structures.ITablaSimbolos;
-import model.data_structures.ListaEncadenada;
-import model.data_structures.TablaSimbolos;
+import model.data_structures.TablaHashLinearProbing;
 import util.Ordenamiento;
 
 /**
@@ -23,11 +23,14 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IListaTad videos;
-	private IListaTad subVideos;
+
 	private String listaCategorias[];
 	private IListaTad llaves;
-	private ITablaSimbolos table;
+	private ITablaSimbolos tableSeparateChaining;
+	private ITablaSimbolos tableLinearProbing;
+	
+	private double averageSeparateChaining;
+	private double averageLinearProbing;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 * @param capacidad 
@@ -37,19 +40,15 @@ public class Modelo {
 		llaves = new ArregloDinamico<String>(7);
 	}
 	
-	public String darPrimero()
+	
+	public int sizeSeparateChaining()
 	{
-		return videos.firstElement().toString();
+		return tableSeparateChaining.size();
 	}
 	
-	public String darUltimo()
+	public int sizeLinearProbing()
 	{
-		return videos.lastElement().toString();
-	}
-	
-	public int size()
-	{
-		return table.size();
+		return tableLinearProbing.size();
 	}
 	
 	
@@ -115,10 +114,12 @@ public class Modelo {
 	
 	}
 	
-	public void crearTabla()
+	public void crearTablaSeparateChaining()
 	{
-		
-		table = new TablaSimbolos<String, YotubeVideo>();
+		long startT, endT;
+		double sumTime =0;
+	
+		tableSeparateChaining = new HashTableSeparateChaining<String, YotubeVideo>(7);
 		
 		try
 		{
@@ -148,40 +149,91 @@ public class Modelo {
 				String categoryName = "";
 				
 				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country, categoryName);
-				table.put(country+" - "+ category_id , video);
+				
+				
+				//Control de promedio
 				contador ++;
+				startT=System.currentTimeMillis();
+				tableSeparateChaining.put(country+" - "+ category_id , video);
+				endT=System.currentTimeMillis();
+				sumTime += (double) (endT -startT);
+				averageSeparateChaining = sumTime/contador;
+				//-----------------------------------------
 				llaves.addLast(country+" - "+ category_id);
 			}
 				
 		} 
 		catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public void agregarLista(int tipoEstructura)
-	{
-		
-		
-	}
 	
-	public int subLista(int inicio, int capacidad)
+	public void crearTablaLinearProbing()
 	{
-		subVideos = videos.subLista(inicio,capacidad);
-		return subVideos.size();
+		long startT, endT;
+		double sumTime =0;
+	
+		tableLinearProbing = new TablaHashLinearProbing<String, YotubeVideo>(7);
+		
+		try
+		{
+			Reader in;
+			in = new FileReader("data/videos-all.csv");
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
+			int contador = 0;
+			for(CSVRecord record:records)
+			{
+				String video_id = record.get("video_id"); 
+				String trending_date = record.get("trending_date");
+				String tittle = record.get("title");
+				String channel_tittle = record.get("channel_title");
+				int category_id= Integer.parseInt(record.get("category_id"));
+				String publish_time= record.get("publish_time");
+				String tags= record.get("tags");
+				String views= record.get("views");
+				String likes= record.get("likes");
+				String dislikes= record.get("dislikes");
+				int comment_count= Integer.parseInt(record.get("comment_count"));
+				String thumbnail_link= record.get("thumbnail_link");
+				boolean comment_disabled = record.get("comments_disabled").toLowerCase().equals("false")? false:true;
+				boolean rating_disabled = record.get("ratings_disabled").equals("False")? false:true;
+				boolean video_error_or_removed = record.get("video_error_or_removed").equals("False")? false:true;
+				String description = record.get("description");
+				String country = record.get("country").toLowerCase();
+				String categoryName = "";
+				
+				YotubeVideo video = new YotubeVideo(video_id, trending_date, tittle, channel_tittle, category_id, publish_time, tags, views, likes, dislikes, comment_count, thumbnail_link, comment_disabled, rating_disabled, video_error_or_removed, description, country, categoryName);
+				
+				
+				//Control de promedio
+				contador ++;
+				startT=System.currentTimeMillis(); //
+				tableLinearProbing.put(country+" - "+ category_id , video);
+				endT=System.currentTimeMillis();
+				sumTime += (double) (endT -startT);
+				//-----------------------------------------
+				averageLinearProbing = sumTime/contador;
+				llaves.addLast(country+" - "+ category_id);
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public String searchKey(String country, int id)
+	public String searchKeySeparateChaining(String country, int id)
 	{
 		String message = "";
 		try
 		{
 			String concatenate = country + " - " + id;
 			IListaTad<YotubeVideo> values =  new ArregloDinamico<YotubeVideo>(7);
-			values = table.get(concatenate);
+			values = tableSeparateChaining.get(concatenate);
 
 			for (int i=0; i<values.size();i++)
 			{
@@ -198,7 +250,32 @@ public class Modelo {
 		
 	}
 	
-	public double pruebaGet()
+	public String searchKeyLinearProbing(String country, int id)
+	{
+		String message = "";
+		try
+		{
+			String concatenate = country + " - " + id;
+			IListaTad<YotubeVideo> values =  new ArregloDinamico<YotubeVideo>(7);
+			values = tableLinearProbing.get(concatenate);
+
+			for (int i=0; i<values.size();i++)
+			{
+				message += "\n Title: " + values.getElement(i).darTitulo() +" Views: " + values.getElement(i).darViews() +" Likes: " + values.getElement(i).darLikes() + " dislikes: " + values.getElement(i).darDislikes();                       
+			}	
+		}
+		catch(Exception e)
+		{
+			message = "Los parametros no son validos ;), hay un error, rectifica tu camino de vida";
+			message += "\n posdata: valiste madre we ;)";
+		}
+
+		return message;
+		
+	}
+	
+	
+	public double pruebaGetSeparateCahning()
 	{
 		long startT, endT;
 		startT=System.currentTimeMillis();
@@ -206,26 +283,70 @@ public class Modelo {
 		{
 			int Random = (int)(Math.random()*129);
 			String llave = (String) llaves.getElement(Random);
-			table.get(llave);
+			tableSeparateChaining.get(llave);
 		}
 		for(int i=0; i <299;i++)
 		{
 			int Random = (int)(Math.random()*129);
-			table.get(Random);
+			tableSeparateChaining.get(Random);
 		}
 		endT=System.currentTimeMillis();
 		
 		
 		return (endT-startT)/1000;
+	}
+	
+	public double pruebaGetLinearProbing()
+	{
+		long startT, endT;
+		startT=System.currentTimeMillis();
+		for(int i=0; i <699;i++)
+		{
+			int Random = (int)(Math.random()*129);
+			String llave = (String) llaves.getElement(Random);
+			tableLinearProbing.get(llave);
+		}
+		for(int i=0; i <299;i++)
+		{
+			int Random = (int)(Math.random()*129);
+			tableLinearProbing.get(Random);
+		}
+		endT=System.currentTimeMillis();
 		
+		
+		return (endT-startT)/1000;
 	}
 	
 	
 	
 	
+	public double getAveragePutSeparateChaining()
+	{
+		return averageSeparateChaining;
+	}
+	
+	public double getAveragePutLinearProbing()
+	{
+		return averageLinearProbing;
+	}
 	
 	
+	public int videosSeparateChaining()
+	{
+		return tableSeparateChaining.videoCount();
+	}
 	
+	
+	public int videosLinearProbing()
+	{
+		return tableLinearProbing.videoCount();
+	}
+	
+	
+	public String dataSC()
+	{
+		return tableSeparateChaining.data();
+	}
 	
 	
 	
