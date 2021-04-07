@@ -90,18 +90,22 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 
 	public void insertElement(T elemento, int pPosicion) {
 		
+		if(tamanoAct==tamanoMax || tamanoAct==0)
+		{
+			tamanoMax = tamanoMax*2;
+			elementos = java.util.Arrays.copyOf(elementos, tamanoMax);
+		}
 		
-		System.out.println(elementos.length);
 		if(elementos[pPosicion] == null)
 		{
 			elementos[pPosicion] = elemento;
 		}
 		else
 		{
-			for(int i = tamanoAct-1; i>=pPosicion; i--)
+			for(int i = tamanoMax-2; i>=pPosicion; i--)
 			{
-				elementos[i+1]= elementos[i];
 				
+				elementos[i+1]= elementos[i];
 			}
 			elementos[pPosicion] = elemento;
 			tamanoAct++;
@@ -243,6 +247,10 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IListaTad<T>
 	}
 
 	
+	public void addElement(T element, int index)
+	{
+		elementos[index] =  element;
+	}
 	
 	
 	

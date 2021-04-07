@@ -26,24 +26,33 @@ public class TablaHashLinearProbing < K extends Comparable<K>, V extends Compara
 		int h = hash(key);
 		boolean find = false;
 		
+		//System.out.println("***********" + key+" "+h+" "+M + "***********" );
+		
+		NodoTS<K, V> e = elements.getElement(h); 
+		
 		if(elements.getElement(h) == null)
 		{
-			elements.insertElement(nodoAgregar, h);
+			//System.out.println(key);
+			elements.addElement(nodoAgregar, h);
+			e = elements.getElement(h); 
 			size ++;
 		}
 		else
 		{
+			
 			while(find == false )
 			{
-				if(elements.getElement(h).getKey().compareTo(key) ==0)
+				if(elements.getElement(h) == null)
 				{
-					elements.getElement(h).updateValue(value);
+					//System.out.println("Si entre: null "+ key); 
+					elements.addElement(nodoAgregar, h);
+					size ++;
 					find = true;
 				}
-				else if(elements.getElement(h) == null)
-				{
-					elements.insertElement(nodoAgregar, h);
-					size ++;
+				else if(elements.getElement(h).getKey().compareTo(key) ==0)
+				{ 
+					//System.out.println("Key igual " + key);
+					elements.getElement(h).updateValue(value);
 					find = true;
 				}
 				
@@ -58,9 +67,9 @@ public class TablaHashLinearProbing < K extends Comparable<K>, V extends Compara
 				
 			}
 		}
+		
+		
 		updateLoadingFactor();
-		
-		
 		//Factor de carga: rehash 
 		if (loadingFactor > MAAXIMUM_LOADING_FACTOR)
 		{
@@ -185,12 +194,16 @@ public class TablaHashLinearProbing < K extends Comparable<K>, V extends Compara
 		TablaHashLinearProbing<K, V> temp = new TablaHashLinearProbing<K, V>(M*2);
 		for(int i = 0;  i < M; i++)
 		{
-			int sizeTemp = elements.getElement(i).valuesCount();
-			for(int z =0; z <sizeTemp; z++)
+			if (elements.getElement(i) != null)
 			{
-				V value =  elements.getElement(i).getValues().getElement(z);
-				temp.put(elements.getElement(i).getKey(), value);
-			}	
+				int sizeTemp = elements.getElement(i).valuesCount();
+				for(int z =0; z <sizeTemp; z++)
+				{
+					V value =  elements.getElement(i).getValues().getElement(z);
+					temp.put(elements.getElement(i).getKey(), value);
+				}
+			}
+				
 
 		}
 		
@@ -212,8 +225,11 @@ public class TablaHashLinearProbing < K extends Comparable<K>, V extends Compara
 		int sum = 0;
 		for(int i = 0; i < M; i++)
 		{
-
-			sum += elements.getElement(i).valuesCount();
+			if(elements.getElement(i) != null)
+			{
+				sum += elements.getElement(i).valuesCount();
+			}
+			
 
 		}
 
