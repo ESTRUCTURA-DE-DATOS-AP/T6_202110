@@ -6,7 +6,6 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 	private V value;
 	private IListaTad<V> values;
 	private int valuesCount;
-
 	
 	public NodoTS(K pKey, V pValue)
 	{
@@ -41,9 +40,6 @@ public class NodoTS <K extends Comparable<K>,  V extends Comparable<V> > impleme
 	{
 		return values.size();
 	}
-	
-	
-	
 	
 	@Override
 	public int compareTo(NodoTS<K, V> other) 

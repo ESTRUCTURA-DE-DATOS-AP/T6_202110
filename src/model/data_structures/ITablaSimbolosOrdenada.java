@@ -5,10 +5,10 @@ public interface ITablaSimbolosOrdenada <K extends Comparable<K>, V extends Comp
 	public int size();
 	public boolean isEmpty();
 	public V get(K key);
-	public int getHeigh(K key);
-	public boolean contanin(K key);
+	public int getHeight(K key);
+	public boolean contains(K key);
 	public void put(K key, V val);
-	public int heigh();
+	public int height();
 	public K keyMin();
 	public K keyMax();
 	public IListaTad<K> keySet();
