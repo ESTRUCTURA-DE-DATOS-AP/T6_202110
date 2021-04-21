@@ -43,6 +43,7 @@ public class Controller {
 			switch(option){
 				case 1:
 					modelo.crearRBT();
+					view.printMessage(modelo.data());
 				default: 
 					view.printMessage("--------- \n Opcion Invalida !! \n---------");
 					break;
