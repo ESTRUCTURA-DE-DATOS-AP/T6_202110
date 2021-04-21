@@ -6,6 +6,7 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 	{
 		K key;
 		V value;
+		IListaTad<V> values;
 		Node right;
 		Node left;
 		int size;
@@ -17,8 +18,15 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 			value = pVal;
 			size = pSize;
 			color = pColor;
+			values = new ArregloDinamico<V>(7);
+			values.addLast(value);
 		}
 		
+		
+		public void updateValue(V val)
+		{
+			values.addLast(val);
+		}
 	}
 	
 	public final static boolean RED = true;
@@ -81,15 +89,28 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 	}
 
 	//especial ese
-	private void getHeight(Node violeta, K key)
+	private int getHeight(Node violeta, K key)
 	{
-		
+		int cmpf = violeta.key.compareTo(key);
+		if (cmpf <0)
+		{
+			getHeight(violeta.left, key);
+		}
+		else if (cmpf >0)
+		{
+			getHeight(violeta.right, key);
+		}
+		else
+		{
+			return size(violeta);
+		}
+		return 0;
 	}
 	
 	@Override
 	public int getHeight(K key) 
 	{
-		return 0;
+		return getHeight(root, key);
 	}
 
 	@Override
@@ -247,8 +268,10 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 			keysInRange(auxilio.left, arreglo, lowKey,highKey);
 		
 		if(cmpLow<=0 && cmpHigh>=0)
+		{
 			arreglo.addLast(auxilio.key);
-		
+		}
+			
 		if(cmpHigh>0)
 			keysInRange(auxilio.right, arreglo, lowKey,highKey);
 	}
@@ -271,8 +294,13 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 			valuesInRange(auxilio.left, resp, lowKey,highKey);
 		
 		if(cmpLow<=0 && cmpHigh>=0)
-			resp.addLast(auxilio.value);
-		
+		{
+			for(int i =0; i < auxilio.values.size(); i++)
+			{
+				V tempVal = auxilio.values.getElement(i);
+				resp.addLast(tempVal);
+			}
+		}
 		if(cmpHigh>0)
 			valuesInRange(auxilio.right, resp, lowKey,highKey);
 	}
@@ -282,6 +310,34 @@ public class RBT <K extends Comparable<K>, V extends Comparable<V>> implements I
 		IListaTad<V> resp = new ArregloDinamico<>(7);
 		valuesInRange(root, resp, keyOrigin, keyEnd);
 		return resp;
+	}
+	
+	
+	private int leafs(Node jessie)
+	{
+		int leafs = 0;
+		
+		if(jessie.left ==null && jessie.right ==null)
+		{
+			leafs +=1;
+		}
+		else if (jessie.left !=null)
+		{
+			leafs += leafs(jessie.left);
+		}
+		else if (jessie.right !=null)
+		{
+			leafs += leafs(jessie.right);
+		}
+
+
+		return leafs;
+		
+	}
+	
+	public int leafs()
+	{
+		return leafs(root);
 	}
 
 }
