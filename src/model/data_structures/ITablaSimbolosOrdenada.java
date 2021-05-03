@@ -16,4 +16,5 @@ public interface ITablaSimbolosOrdenada <K extends Comparable<K>, V extends Comp
 	public IListaTad<K> keysInRange(K keyOrigin, K keyEnd);
 	public IListaTad<V> valuesInRange(K keyOrigin, K keyEnd);
 	public int leafs();
+	
 }
